@@ -2,8 +2,10 @@ package si.uni_lj.fe.tnvu.parkirajinnajdi;
 
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Geocoder;
 import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -54,6 +58,7 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
     private GoogleMap mMap;
 
     private Marker marker;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +131,8 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
         setLocation();
     }
 
+
+
     protected void setLocation(){
 
         LatLng LatLngZemljevid = new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
@@ -137,7 +144,9 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
 
         marker = mMap.addMarker(new MarkerOptions()
                 .title("Lokacija")
+                .snippet("Zapomnili smo si vaso lokacijo")
                 .position(LatLngZemljevid));
+                marker.showInfoWindow();
     }
 
     protected void startLocationUpdates() {
@@ -220,4 +229,6 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
         super.onSaveInstanceState(savedInstanceState);
     }
+
+
 }

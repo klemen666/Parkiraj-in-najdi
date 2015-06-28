@@ -5,4 +5,14 @@
     <string name="action_settings">Settings</string>
     <string name="location_updated_message">Location updated</string>
     <string name="title_activity_google_maps">Prikaži na zemljevidu</string>
+    <string name="title_activity_first">Parkiraj in najdi: FirstActivity</string>
+
+
+    <string name="firstRunKey"></string>
+    <string name="locationFlagKey"></string>
+    <string name="locationLatitudeKey"></string>
+    <string name="locationLongitudeKey"></string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_get_walking_direction">GetWalkingDirection</string>
 </resources>

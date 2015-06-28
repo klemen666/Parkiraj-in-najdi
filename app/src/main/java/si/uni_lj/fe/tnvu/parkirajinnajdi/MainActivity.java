@@ -2,7 +2,9 @@ package si.uni_lj.fe.tnvu.parkirajinnajdi;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -38,6 +40,9 @@ import si.uni_lj.fe.tnvu.parkirajinnajdi.R;
 public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener
 {
+    String locationLatitudeKey = "LocationLatitude";
+//    String locationLongitudeKey = "locLongitude";
+    String locationFlagKey = "LocationFlag";
 
     protected static final String TAG = "location-updates-sample";
 
@@ -117,6 +122,14 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // Kick off the process of building a GoogleApiClient and requesting the LocationServices
         // API.
         buildGoogleApiClient();
+
+        // locationFlagKey
+        // locationLatitudeKey
+        // locationLongitudeKey
+        locationFlagKey = getResources().getString(R.string.locationFlagKey);
+        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
+//        locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
+
     }
 
     /**
@@ -208,6 +221,26 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
     public void showMap(View view) {
         startLocationUpdates();
+
+// SPREMENI FLAG IZ FALSE NA TRUE!!! TO JE SAMO TESTIRANJE
+        // set locationFlagKey to true
+        SharedPreferences locationFlagSharedPref = this.getSharedPreferences(locationFlagKey,0);
+        SharedPreferences.Editor editor = locationFlagSharedPref.edit();
+        editor.putBoolean(locationFlagKey, true);
+        editor.commit();
+
+        SharedPreferences latitudeSharedPref = this.getSharedPreferences(locationLatitudeKey, 0);
+        SharedPreferences.Editor editor1 = latitudeSharedPref.edit();
+        editor1.putLong(locationLatitudeKey, Double.doubleToLongBits(mCurrentLocation.getLatitude()));
+        editor1.commit();
+
+/*
+        // update locationLongitudeKey
+        SharedPreferences longitudeSharedPrefKey = this.getSharedPreferences(locationLongitudeKey, 0);
+        SharedPreferences.Editor editor2 = longitudeSharedPrefKey.edit();
+        editor2.putFloat(locationLongitudeKey, (float) mCurrentLocation.getLongitude());
+        editor2.commit();
+*/
         Intent intent = new Intent(this, GoogleMapsActivity.class);
         // double latitude = mCurrentLocation.getLatitude();
         //  double longitude = mCurrentLocation.getLongitude();

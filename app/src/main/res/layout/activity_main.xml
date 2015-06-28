@@ -81,9 +81,11 @@
         android:id="@+id/show_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/dodajparking"
         android:enabled="true"
         android:onClick="showMap"
-        android:text="@string/show_Map"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_below="@+id/last_update_time_label"
         android:layout_alignRight="@+id/longitude_text"
         android:layout_alignEnd="@+id/longitude_text" />
