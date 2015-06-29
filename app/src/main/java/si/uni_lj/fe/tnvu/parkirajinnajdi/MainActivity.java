@@ -40,9 +40,9 @@ import si.uni_lj.fe.tnvu.parkirajinnajdi.R;
 public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener
 {
-    String locationLatitudeKey = "LocationLatitude";
+//    String locationLatitudeKey = "LocationLatitude";
 //    String locationLongitudeKey = "locLongitude";
-    String locationFlagKey = "LocationFlag";
+//    String locationFlagKey = "LocationFlag";
 
     protected static final String TAG = "location-updates-sample";
 
@@ -126,8 +126,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // locationFlagKey
         // locationLatitudeKey
         // locationLongitudeKey
-        locationFlagKey = getResources().getString(R.string.locationFlagKey);
-        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
+//        locationFlagKey = getResources().getString(R.string.locationFlagKey);
+//        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
 //        locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
 
     }
@@ -222,7 +222,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     public void showMap(View view) {
         startLocationUpdates();
 
-// SPREMENI FLAG IZ FALSE NA TRUE!!! TO JE SAMO TESTIRANJE
+/*
         // set locationFlagKey to true
         SharedPreferences locationFlagSharedPref = this.getSharedPreferences(locationFlagKey,0);
         SharedPreferences.Editor editor = locationFlagSharedPref.edit();
@@ -233,7 +233,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         SharedPreferences.Editor editor1 = latitudeSharedPref.edit();
         editor1.putLong(locationLatitudeKey, Double.doubleToLongBits(mCurrentLocation.getLatitude()));
         editor1.commit();
-
+*/
 /*
         // update locationLongitudeKey
         SharedPreferences longitudeSharedPrefKey = this.getSharedPreferences(locationLongitudeKey, 0);

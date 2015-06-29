@@ -40,9 +40,8 @@ public class FirstActivity extends ActionBarActivity {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(firstRunKey, 0);
         int isFirstRun = sharedPref.getInt(firstRunKey, 1);
 
-        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey, 0);
-        // boolean locationFlag = locationFlagSharedPref.getBoolean(locationFlagKey, false);
-        boolean locationFlag = locationFlagSharedPref.getBoolean(locationFlagKey,false);
+//        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey, 0);
+//        boolean locationFlag = locationFlagSharedPref.getBoolean(locationFlagKey,false);
 
         // check if first run
         if (isFirstRun == 1){
@@ -51,20 +50,24 @@ public class FirstActivity extends ActionBarActivity {
             startActivity(intent1);
         }
         else {
-            // check location flag
-
-            if (locationFlag == false) {
-                // start MainActivity
-                Intent intent1f = new Intent(this, MainActivity.class);
-                startActivity(intent1f);
-            }
-            if (locationFlag == true) {
-                // TO-DO: append location data (latitude and longitude)
-                Intent intent2 = new Intent(this, GetWalkingDirection.class);
-                startActivity(intent2);
-
-            }
+            Intent intent = new Intent(this,GetWalkingDirection.class);
+            startActivity(intent);
         }
+//        else {
+//            // check location flag
+//
+//            if (locationFlag == false) {
+//                // start MainActivity
+//                Intent intent1f = new Intent(this, MainActivity.class);
+//                startActivity(intent1f);
+//            }
+//            if (locationFlag == true) {
+//                // TO-DO: append location data (latitude and longitude)
+//                Intent intent2 = new Intent(this, GetWalkingDirection.class);
+//                startActivity(intent2);
+//
+//            }
+//        }
 
         // set isFirstRun to true
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -94,7 +97,7 @@ public class FirstActivity extends ActionBarActivity {
         }
     }
 */
-
+/*
     @Override
     protected void onPause() {
         super.onPause();
@@ -104,7 +107,7 @@ public class FirstActivity extends ActionBarActivity {
     protected void onStop() {
         super.onStop();
     }
-
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

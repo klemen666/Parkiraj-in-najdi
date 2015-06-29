@@ -20,7 +20,7 @@ public class GetWalkingDirection extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_walking_direction);
 
-        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
+//        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
 
         /*
         locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
@@ -49,9 +49,9 @@ public class GetWalkingDirection extends ActionBarActivity {
 
         TextView izpis = (TextView) findViewById(R.id.izpisFlag);
 
-        SharedPreferences latitudeSharedPref = this.getSharedPreferences(locationLatitudeKey,0);
-        double latitude = Double.longBitsToDouble(latitudeSharedPref.getLong(locationLatitudeKey, 0));
-        izpis.setText("Latitude: " + latitude);
+//        SharedPreferences latitudeSharedPref = this.getSharedPreferences(locationLatitudeKey,0);
+//        double latitude = Double.longBitsToDouble(latitudeSharedPref.getLong(locationLatitudeKey, 0));
+        izpis.setText("Latitude: ");
 
         /*
         if (locationFlag == true) {
