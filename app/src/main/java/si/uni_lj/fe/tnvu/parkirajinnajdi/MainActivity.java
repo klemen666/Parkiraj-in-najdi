@@ -81,13 +81,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
      */
     protected Location mCurrentLocation;
 
-    // UI Widgets.
-    //protected Button mStartUpdatesButton;
-    //protected Button mStopUpdatesButton;
+    // UI Widgets
     protected Button mShowMap;
-    //protected TextView mLastUpdateTimeTextView;
-    //protected TextView mLatitudeTextView;
-    //protected TextView mLongitudeTextView;
 
     /**
      * Tracks the status of the location updates request. Value changes when the user presses the
@@ -105,13 +100,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Locate the UI widgets.
-        // mStartUpdatesButton = (Button) findViewById(R.id.start_updates_button);
-        //mStopUpdatesButton = (Button) findViewById(R.id.stop_updates_button);
         mShowMap = (Button) findViewById(R.id.show_map);
-        // mLatitudeTextView = (TextView) findViewById(R.id.latitude_text);
-        //mLongitudeTextView = (TextView) findViewById(R.id.longitude_text);
-        //mLastUpdateTimeTextView = (TextView) findViewById(R.id.last_update_time_text);
+
 
         mRequestingLocationUpdates = false;
         mLastUpdateTime = "";
@@ -207,17 +197,9 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    /**
-     * Handles the Start Updates button and requests start of location updates. Does nothing if
-     * updates have already been requested.
+    /*
+     * showMap method. Intent to new activity shich is used to show location on map.
      */
-    public void startUpdatesButtonHandler(View view) {
-        if (!mRequestingLocationUpdates) {
-            mRequestingLocationUpdates = true;
-            //setButtonsEnabledState();
-            startLocationUpdates();
-        }
-    }
 
     public void showMap(View view) {
         startLocationUpdates();
@@ -249,18 +231,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         startActivity(intent);
     }
 
-
-    /**
-     * Handles the Stop Updates button, and requests removal of location updates. Does nothing if
-     * updates were not previously requested.
-     */
-    public void stopUpdatesButtonHandler(View view) {
-        if (mRequestingLocationUpdates) {
-            mRequestingLocationUpdates = false;
-            //setButtonsEnabledState();
-            stopLocationUpdates();
-        }
-    }
 
 
     /**

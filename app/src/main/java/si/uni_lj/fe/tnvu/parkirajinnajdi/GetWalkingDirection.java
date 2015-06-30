@@ -1,11 +1,14 @@
 package si.uni_lj.fe.tnvu.parkirajinnajdi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -53,6 +56,8 @@ public class GetWalkingDirection extends ActionBarActivity {
 //        double latitude = Double.longBitsToDouble(latitudeSharedPref.getLong(locationLatitudeKey, 0));
         izpis.setText("Latitude: ");
 
+
+
         /*
         if (locationFlag == true) {
             izpis.setText("Flag = true");
@@ -75,6 +80,14 @@ public class GetWalkingDirection extends ActionBarActivity {
         TextView longitudeTV = (TextView) findViewById(R.id.longitudeTV);
         longitudeTV.setText("Longitude: " + longitude);
     */
+    }
+
+    public void showWalkNav(View view) {
+        // vstavi intent na google maps navigation
+        String dLat = "14.493945";
+        String dLong = "46.046988";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + dLat + "," + dLong + "&mode=w"));
+        startActivity(intent);
     }
 
     @Override
