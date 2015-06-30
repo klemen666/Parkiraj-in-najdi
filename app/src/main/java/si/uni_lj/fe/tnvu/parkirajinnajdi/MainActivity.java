@@ -38,11 +38,11 @@ import si.uni_lj.fe.tnvu.parkirajinnajdi.R;
 
 
 public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener
-{
-//    String locationLatitudeKey = "LocationLatitude";
-//    String locationLongitudeKey = "locLongitude";
-//    String locationFlagKey = "LocationFlag";
+        GoogleApiClient.OnConnectionFailedListener, LocationListener {
+
+    String locationLatitudeKey = "LocationLatitude";
+    String locationLongitudeKey = "locLongitude";
+    String locationFlagKey = "LocationFlag";
 
     protected static final String TAG = "location-updates-sample";
 
@@ -113,13 +113,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // API.
         buildGoogleApiClient();
 
-        // locationFlagKey
-        // locationLatitudeKey
-        // locationLongitudeKey
-//        locationFlagKey = getResources().getString(R.string.locationFlagKey);
-//        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
-//        locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
+        /**
+         * locationFlagKey
+         * locationLatitudeKey
+         * locationLongitudeKey
+         */
 
+        locationFlagKey = getResources().getString(R.string.locationFlagKey);
+        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
+        locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
     }
 
     /**
@@ -202,33 +204,48 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
      */
 
     public void showMap(View view) {
+        // start location updates
         startLocationUpdates();
 
+        double latitude = mCurrentLocation.getLatitude();
+        double longitude = mCurrentLocation.getLongitude();
+
+        Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(longitude), Toast.LENGTH_LONG);
+        toast.show();
+
+        String lonText = String.valueOf(longitude);
+        String latText = String.valueOf(latitude);
+
+        /**
+         *  Save latitude and longitude data.
+         *  Convert from double do long bits.
+         */
 /*
+
+        SharedPreferences latitudeSharedPref = getApplicationContext().getSharedPreferences(locationLatitudeKey, 0);
+        SharedPreferences.Editor editor1 = latitudeSharedPref.edit();
+        editor1.putLong(locationLatitudeKey, Double.doubleToLongBits(latitude));
+        editor1.apply();
+*/
+        SharedPreferences longitudeSharedPrefKey = getApplicationContext().getSharedPreferences(locationLongitudeKey, 0);
+        SharedPreferences.Editor editor2 = longitudeSharedPrefKey.edit();
+        editor2.putString(locationLongitudeKey, lonText);
+        //editor2.putLong(locationLongitudeKey, Double.doubleToRawLongBits(longitude));
+        editor2.apply();
+
+
         // set locationFlagKey to true
-        SharedPreferences locationFlagSharedPref = this.getSharedPreferences(locationFlagKey,0);
+        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey,0);
         SharedPreferences.Editor editor = locationFlagSharedPref.edit();
         editor.putBoolean(locationFlagKey, true);
         editor.commit();
+        Log.i("Comments", "MainAcitivity: locationFlag set to true");
 
-        SharedPreferences latitudeSharedPref = this.getSharedPreferences(locationLatitudeKey, 0);
-        SharedPreferences.Editor editor1 = latitudeSharedPref.edit();
-        editor1.putLong(locationLatitudeKey, Double.doubleToLongBits(mCurrentLocation.getLatitude()));
-        editor1.commit();
-*/
-/*
-        // update locationLongitudeKey
-        SharedPreferences longitudeSharedPrefKey = this.getSharedPreferences(locationLongitudeKey, 0);
-        SharedPreferences.Editor editor2 = longitudeSharedPrefKey.edit();
-        editor2.putFloat(locationLongitudeKey, (float) mCurrentLocation.getLongitude());
-        editor2.commit();
-*/
+
         Intent intent = new Intent(this, GoogleMapsActivity.class);
-        // double latitude = mCurrentLocation.getLatitude();
-        //  double longitude = mCurrentLocation.getLongitude();
-        //  intent.putExtra(LATITUDE, latitude);
-        //  intent.putExtra(LONGITUDE, longitude);
-        startActivity(intent);
+        //intent.putExtra(LATITUDE, latitude);
+        //intent.putExtra(LONGITUDE, longitude);
+//        startActivity(intent);
     }
 
 

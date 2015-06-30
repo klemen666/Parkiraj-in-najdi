@@ -1,19 +1,16 @@
 package si.uni_lj.fe.tnvu.parkirajinnajdi;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 
 public class FirstActivity extends ActionBarActivity {
-    String firstRunKey = "checkIfFirstRun";
     String locationFlagKey = "LocationFlag";
-    String locationLatitudeKey = "locLatitude";
 
 
     @Override
@@ -21,9 +18,7 @@ public class FirstActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         // keys
-        firstRunKey = getResources().getString(R.string.firstRunKey);
         locationFlagKey = getResources().getString(R.string.locationFlagKey);
-        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
     }
 
     @Override
@@ -37,44 +32,25 @@ public class FirstActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         // read from SharedPreferences
-        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(firstRunKey, 0);
-        int isFirstRun = sharedPref.getInt(firstRunKey, 1);
 
-//        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey, 0);
-//        boolean locationFlag = locationFlagSharedPref.getBoolean(locationFlagKey,false);
+        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey, 0);
+        boolean locationFlag = locationFlagSharedPref.getBoolean(locationFlagKey, false);
 
         // check if first run
-        if (isFirstRun == 1){
-
-            Intent intent1 = new Intent(this, MainActivity.class);
-            startActivity(intent1);
+        if (locationFlag == true) {
+            // TO-DO: append location data (latitude and longitude)
+            Log.i("Comments", "firstActivity: locationFlag == true");
+            Intent intent2 = new Intent(this, GetDirections.class);
+            startActivity(intent2);
         }
         else {
-            Intent intent = new Intent(this,GetWalkingDirection.class);
-            startActivity(intent);
+            Log.i("Comments", "firstActivity: locationFlag == false");
+            // start MainActivity
+            Intent intent1f = new Intent(this, MainActivity.class);
+            startActivity(intent1f);
+            }
         }
-//        else {
-//            // check location flag
-//
-//            if (locationFlag == false) {
-//                // start MainActivity
-//                Intent intent1f = new Intent(this, MainActivity.class);
-//                startActivity(intent1f);
-//            }
-//            if (locationFlag == true) {
-//                // TO-DO: append location data (latitude and longitude)
-//                Intent intent2 = new Intent(this, GetWalkingDirection.class);
-//                startActivity(intent2);
-//
-//            }
-//        }
 
-        // set isFirstRun to true
-        SharedPreferences.Editor editor = sharedPref.edit();
-        isFirstRun = 0;
-        editor.putInt(firstRunKey, isFirstRun);
-        editor.commit();
-    }
 /*
     @Override
     protected void onResume() {
@@ -91,7 +67,7 @@ public class FirstActivity extends ActionBarActivity {
         }
         if (locationFlag == true) {
             // TO-DO: append location data (latitude and longitude)
-            Intent intent2 = new Intent(this, GetWalkingDirection.class);
+            Intent intent2 = new Intent(this, GetDirections.class);
             startActivity(intent2);
 
         }

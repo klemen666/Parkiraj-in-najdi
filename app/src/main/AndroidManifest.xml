@@ -46,7 +46,7 @@
                 android:value="si.uni_lj.fe.tnvu.parkirajinnajdi.MainActivity" />
         </activity>
         <activity
-            android:name=".GetWalkingDirection"
+            android:name=".GetDirections"
             android:label="@string/title_activity_get_walking_direction" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

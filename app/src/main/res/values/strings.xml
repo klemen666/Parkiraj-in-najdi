@@ -16,4 +16,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_get_walking_direction">GetWalkingDirection</string>
     <string name="showWalkNav">Pokazi pot do parkirisca!</string>
+    <string name="resetFlag">Izbriši parkirišče!</string>
 </resources>
