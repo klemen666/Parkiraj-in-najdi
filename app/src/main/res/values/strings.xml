@@ -12,6 +12,9 @@
     <string name="locationFlagKey"></string>
     <string name="locationLatitudeKey"></string>
     <string name="locationLongitudeKey"></string>
+    <string name="locationPref"></string>
+    <string name="longitudeKey"></string>
+    <string name="latitudeKey"></string>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_get_walking_direction">GetWalkingDirection</string>

@@ -55,7 +55,7 @@ public class GetDirections extends ActionBarActivity {
 */
         SharedPreferences locationLongitudeSharedPref = getApplicationContext().getSharedPreferences(locationLongitudeKey, MODE_PRIVATE);
         //double longitude = Double.longBitsToDouble(locationLongitudeSharedPref.getLong(locationLongitudeKey, 0));
-        String longitude = locationLongitudeSharedPref.getString(locationLongitudeKey, "false");
+        boolean longitude = locationLongitudeSharedPref.getBoolean(locationLongitudeKey, false);
 
 
         TextView izpisLon = (TextView) findViewById(R.id.lonText);
