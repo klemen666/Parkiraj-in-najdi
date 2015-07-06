@@ -43,6 +43,9 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     String locationLatitudeKey = "LocationLatitude";
     String locationLongitudeKey = "locLongitude";
     String locationFlagKey = "LocationFlag";
+    String sharedPref = "sharedPred";
+    String lonText;
+    String latText;
 
     protected static final String TAG = "location-updates-sample";
 
@@ -122,6 +125,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         locationFlagKey = getResources().getString(R.string.locationFlagKey);
         locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
         locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
+        sharedPref = getResources().getString(R.string.sharedPref);
     }
 
     /**
@@ -226,8 +230,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         SharedPreferences.Editor editor1 = latitudeSharedPref.edit();
         editor1.putLong(locationLatitudeKey, Double.doubleToLongBits(latitude));
         editor1.apply();
-*/
-        SharedPreferences longitudeSharedPrefKey = getApplicationContext().getSharedPreferences(locationLongitudeKey, 0);
+
+        SharedPreferences longitudeSharedPrefKey = getApplicationContext().getSharedPreferences(locationLongitudeKey, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor2 = longitudeSharedPrefKey.edit();
         editor2.putString(locationLongitudeKey, lonText);
         //editor2.putLong(locationLongitudeKey, Double.doubleToRawLongBits(longitude));
@@ -235,12 +239,13 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 
 
         // set locationFlagKey to true
-        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey,0);
+        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = locationFlagSharedPref.edit();
-        editor.putBoolean(locationFlagKey, true);
-        editor.commit();
+        editor.putString(locationFlagKey, "true");
+        editor.apply();
         Log.i("Comments", "MainAcitivity: locationFlag set to true");
-
+*/
+        savePreferences(latText, lonText);
 
         Intent intent = new Intent(this, GoogleMapsActivity.class);
         //intent.putExtra(LATITUDE, latitude);
@@ -248,6 +253,21 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
 //        startActivity(intent);
     }
 
+    private void savePreferences(String latText, String lonText) {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString(locationLongitudeKey, lonText);
+//        editor.putString(locationLatitudeKey, latText);
+        editor.putBoolean(locationFlagKey, true);
+        editor.apply();
+
+        Intent intent = new Intent(this, GetDirections.class);
+        intent.putExtra("latitude", latText);
+        intent.putExtra("longitude", lonText);
+        startActivity(intent);
+
+        Log.i("Comments", "MainActivity/savePreferences: lat, long, flag=true");
+    }
 
 
     /**
@@ -372,7 +392,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         // updateUI();
         Toast.makeText(this, getResources().getString(R.string.location_updated_message),
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_LONG).show();
     }
 
     @Override

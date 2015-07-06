@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 public class FirstActivity extends ActionBarActivity {
     String locationFlagKey = "LocationFlag";
+    String sharedPref = "sharedPref";
 
 
     @Override
@@ -19,6 +20,7 @@ public class FirstActivity extends ActionBarActivity {
         setContentView(R.layout.activity_first);
         // keys
         locationFlagKey = getResources().getString(R.string.locationFlagKey);
+        sharedPref = getResources().getString(R.string.sharedPref);
     }
 
     @Override
@@ -33,8 +35,14 @@ public class FirstActivity extends ActionBarActivity {
         super.onStart();
         // read from SharedPreferences
 
-        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey, 0);
-        boolean locationFlag = locationFlagSharedPref.getBoolean(locationFlagKey, false);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
+        boolean locationFlag = sharedPreferences.getBoolean(locationFlagKey, false);
+
+        Log.i("Comments", "FirstActivity - prebrano: flag=" + locationFlag);
+        Intent intent = getIntent();
+        locationFlag = Boolean.valueOf(intent.getStringExtra("locationFlag"));
+
+
 
         // check if first run
         if (locationFlag == true) {

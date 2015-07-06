@@ -1,5 +1,7 @@
 package si.uni_lj.fe.tnvu.parkirajinnajdi;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,14 +16,21 @@ public class GetDirections extends ActionBarActivity {
     String locationLatitudeKey = "locLatitude";
     String locationLongitudeKey = "locLongitude";
     String locationFlagKey = "LocationFlag";
+    String sharedPref = "sharedPref";
+    String locationPref = "locationPref";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_directions);
 
-        locationFlagKey = getResources().getString(R.string.locationFlagKey);
-        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
-        locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
+        String locationFlagKey = getResources().getString(R.string.locationFlagKey);
+        String locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
+        String locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
+        String sharedPref = getResources().getString(R.string.sharedPref);
+        String locationPref = getResources().getString(R.string.locationPref);
 
     }
 
@@ -42,37 +51,65 @@ public class GetDirections extends ActionBarActivity {
          * locationLatitudeKey
          * locationLongitudeKey
          */
-
-        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey, MODE_PRIVATE);
-        boolean locationFlag = locationFlagSharedPref.getBoolean(locationFlagKey, false);
 /*
+        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey, Context.MODE_PRIVATE);
+        String locationFlag = locationFlagSharedPref.getString(locationFlagKey, "false");
 
         SharedPreferences locationLatitudeSharedPref = getApplicationContext().getSharedPreferences(locationLatitudeKey, MODE_PRIVATE);
         double latitude = Double.longBitsToDouble(locationLatitudeSharedPref.getLong(locationLatitudeKey, 0));
 
+        SharedPreferences locationLongitudeSharedPref = getApplicationContext().getSharedPreferences(locationLongitudeKey, Context.MODE_PRIVATE);
+        //double longitude = Double.longBitsToDouble(locationLongitudeSharedPref.getLong(locationLongitudeKey, 0));
+        String longitude = locationLongitudeSharedPref.getString(locationLongitudeKey, "nekbrezvezennapis");
+*/
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
+//        String longitude = sharedPreferences.getString(locationLongitudeKey, "lonVal");
+//        String latitude = sharedPreferences.getString(locationLatitudeKey, "latVal");
+        boolean locationFlag = sharedPreferences.getBoolean(locationFlagKey, true);
+
+
+
+        SharedPreferences locationSharedPref = getApplicationContext().getSharedPreferences(locationPref, MODE_PRIVATE);
+        String latitude = locationSharedPref.getString(locationLatitudeKey, "0");
+        String longitude = locationSharedPref.getString(locationLongitudeKey, "0");
+
+        Intent intent = getIntent();
+        latitude = intent.getStringExtra("latitude");
+        longitude = intent.getStringExtra("longitude");
+
         TextView izpisLat = (TextView) findViewById(R.id.latText);
         izpisLat.setText("Latitude: " + latitude);
-*/
-        SharedPreferences locationLongitudeSharedPref = getApplicationContext().getSharedPreferences(locationLongitudeKey, MODE_PRIVATE);
-        //double longitude = Double.longBitsToDouble(locationLongitudeSharedPref.getLong(locationLongitudeKey, 0));
-        boolean longitude = locationLongitudeSharedPref.getBoolean(locationLongitudeKey, false);
-
 
         TextView izpisLon = (TextView) findViewById(R.id.lonText);
         izpisLon.setText("Longitude: " + longitude);
 
-
         TextView izpisLoc = (TextView) findViewById(R.id.izpisLocFlag);
         izpisLoc.setText("locationFlag (def F): " + locationFlag);
+        Log.i("Comments", "GetDirections - prebrano: flag=" + locationFlag);
+
+        saveLocation(latitude, longitude);
 
     }
 
-    public void setLocationFlag(View view) {
-        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey, 0);
-        SharedPreferences.Editor editor = locationFlagSharedPref.edit();
-        editor.putBoolean(locationFlagKey, false);
+    private void saveLocation(String latitude, String longitude) {
+        SharedPreferences locationSharedPref = getApplicationContext().getSharedPreferences(locationPref, MODE_PRIVATE);
+        SharedPreferences.Editor editor = locationSharedPref.edit();
+        editor.putString(locationLatitudeKey, latitude);
+        editor.putString(locationLongitudeKey, longitude);
         editor.commit();
+    }
+
+    public void setLocationFlag(View view) {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editorG = sharedPreferences.edit();
+        editorG.putBoolean(locationFlagKey, false);
+        editorG.commit();
         Log.i("Comments", "GetDirections: locationFlag set to false");
+
+        Intent intent = new Intent(this,FirstActivity.class);
+        intent.putExtra("locationFlag", false);
+//        startActivity(intent);
     }
 
 /*
