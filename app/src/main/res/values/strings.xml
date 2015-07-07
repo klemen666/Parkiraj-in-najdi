@@ -6,6 +6,7 @@
     <string name="location_updated_message">Location updated</string>
     <string name="title_activity_google_maps">Prikaži na zemljevidu</string>
     <string name="title_activity_first">Parkiraj in najdi: FirstActivity</string>
+    <string name="shraniLokacijo">Shrani lokacijo</string>
 
 
     <string name="firstRunKey"></string>

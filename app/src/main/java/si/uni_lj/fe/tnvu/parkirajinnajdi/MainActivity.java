@@ -224,33 +224,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
          *  Save latitude and longitude data.
          *  Convert from double do long bits.
          */
-/*
 
-        SharedPreferences latitudeSharedPref = getApplicationContext().getSharedPreferences(locationLatitudeKey, 0);
-        SharedPreferences.Editor editor1 = latitudeSharedPref.edit();
-        editor1.putLong(locationLatitudeKey, Double.doubleToLongBits(latitude));
-        editor1.apply();
-
-        SharedPreferences longitudeSharedPrefKey = getApplicationContext().getSharedPreferences(locationLongitudeKey, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor2 = longitudeSharedPrefKey.edit();
-        editor2.putString(locationLongitudeKey, lonText);
-        //editor2.putLong(locationLongitudeKey, Double.doubleToRawLongBits(longitude));
-        editor2.apply();
-
-
-        // set locationFlagKey to true
-        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = locationFlagSharedPref.edit();
-        editor.putString(locationFlagKey, "true");
-        editor.apply();
-        Log.i("Comments", "MainAcitivity: locationFlag set to true");
-*/
-        savePreferences(latText, lonText);
+//        savePreferences(latText, lonText);
 
         Intent intent = new Intent(this, GoogleMapsActivity.class);
+        intent.putExtra("latitude", latText);
+        intent.putExtra("longitude", lonText);
         //intent.putExtra(LATITUDE, latitude);
         //intent.putExtra(LONGITUDE, longitude);
-//        startActivity(intent);
+        startActivity(intent);
     }
 
     private void savePreferences(String latText, String lonText) {

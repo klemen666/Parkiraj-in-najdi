@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 
 public class GetDirections extends ActionBarActivity {
     String locationLatitudeKey = "locLatitude";
@@ -18,6 +21,7 @@ public class GetDirections extends ActionBarActivity {
     String locationFlagKey = "LocationFlag";
     String sharedPref = "sharedPref";
     String locationPref = "locationPref";
+    String locationFile = "locationFile";
 
 
 
@@ -31,6 +35,8 @@ public class GetDirections extends ActionBarActivity {
         String locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
         String sharedPref = getResources().getString(R.string.sharedPref);
         String locationPref = getResources().getString(R.string.locationPref);
+        String latitude;
+        String longitude;
 
     }
 
@@ -68,8 +74,12 @@ public class GetDirections extends ActionBarActivity {
 //        String latitude = sharedPreferences.getString(locationLatitudeKey, "latVal");
         boolean locationFlag = sharedPreferences.getBoolean(locationFlagKey, true);
 
+        String[] lokacija = readFromfile(locationFile);
+        String latitude = lokacija[0];
+        String longitude = lokacija[1];
 
 
+/*
         SharedPreferences locationSharedPref = getApplicationContext().getSharedPreferences(locationPref, MODE_PRIVATE);
         String latitude = locationSharedPref.getString(locationLatitudeKey, "0");
         String longitude = locationSharedPref.getString(locationLongitudeKey, "0");
@@ -77,7 +87,7 @@ public class GetDirections extends ActionBarActivity {
         Intent intent = getIntent();
         latitude = intent.getStringExtra("latitude");
         longitude = intent.getStringExtra("longitude");
-
+*/
         TextView izpisLat = (TextView) findViewById(R.id.latText);
         izpisLat.setText("Latitude: " + latitude);
 
@@ -88,10 +98,10 @@ public class GetDirections extends ActionBarActivity {
         izpisLoc.setText("locationFlag (def F): " + locationFlag);
         Log.i("Comments", "GetDirections - prebrano: flag=" + locationFlag);
 
-        saveLocation(latitude, longitude);
+//        saveLocation(latitude, longitude);
 
     }
-
+/*
     private void saveLocation(String latitude, String longitude) {
         SharedPreferences locationSharedPref = getApplicationContext().getSharedPreferences(locationPref, MODE_PRIVATE);
         SharedPreferences.Editor editor = locationSharedPref.edit();
@@ -99,12 +109,43 @@ public class GetDirections extends ActionBarActivity {
         editor.putString(locationLongitudeKey, longitude);
         editor.commit();
     }
+*/
+
+    private String[] readFromfile(String filename){
+
+        // create input stream
+        FileInputStream inputStream;
+
+        //ugotovimo, koliko je velika datoteka
+        File file = new File(getFilesDir(), filename);
+        int length = (int) file.length();
+
+        // initializing temp var
+        byte[] bytes = new byte[length];
+
+        // read data
+        try {
+            inputStream = openFileInput(filename);
+            inputStream.read(bytes);
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // convert from bytes to string
+        String content = new String(bytes);
+
+
+        String[] locationString = content.split(":");
+        return locationString;
+    }
+
 
     public void setLocationFlag(View view) {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
-        SharedPreferences.Editor editorG = sharedPreferences.edit();
-        editorG.putBoolean(locationFlagKey, false);
-        editorG.commit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(locationFlagKey, false);
+        editor.commit();
         Log.i("Comments", "GetDirections: locationFlag set to false");
 
         Intent intent = new Intent(this,FirstActivity.class);

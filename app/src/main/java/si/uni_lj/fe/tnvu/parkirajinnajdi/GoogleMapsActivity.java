@@ -4,6 +4,7 @@ package si.uni_lj.fe.tnvu.parkirajinnajdi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Geocoder;
 import android.location.Location;
@@ -30,6 +31,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -58,6 +62,10 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
     private GoogleMap mMap;
 
     private Marker marker;
+
+    public String latText;
+    public String lonText;
+
     View view;
 
     @Override
@@ -67,6 +75,11 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 
         buildGoogleApiClient();
+
+        Intent intent = getIntent();
+        latText = intent.getStringExtra("latitude");
+        lonText = intent.getStringExtra("longitude");
+
     }
 
 
@@ -154,6 +167,26 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
         // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
+    }
+
+    private void saveToFile(String latText, String lonText, String filename){
+        try {
+
+            // output flow
+            FileOutputStream os = openFileOutput(filename, Context.MODE_PRIVATE);
+            // join latitude and longitude
+            String content = latText + "|" + lonText;
+            // write content to file
+            os.write(content.getBytes());
+            // closing output flow
+            os.close();
+
+            Intent intentDirections = new Intent(this, GetDirections.class);
+            startActivity(intentDirections);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
