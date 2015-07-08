@@ -68,10 +68,8 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
 
     public String latText;
     public String lonText;
-    public String locationFlagKey;
-    public String sharedPref;
-
-    public String filename = "lokacija.txt";
+    // ime datoteke
+    public String filename = "lokacija";
 
 
     View view;
@@ -89,8 +87,6 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
         lonText = intent.getStringExtra("longitude");
 
         saveButton = (Button) findViewById(R.id.saveButton);
-        locationFlagKey = getResources().getString(R.string.locationFlagKey);
-        sharedPref = getResources().getString(R.string.sharedPref);
     }
 
 
@@ -186,29 +182,19 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
             // output flow
             FileOutputStream os = openFileOutput(filename, Context.MODE_PRIVATE);
             // join latitude and longitude
-            String content = latText + "|" + lonText;
+            String content = latText + "-" + lonText;
             // write content to file
             os.write(content.getBytes());
             // closing output flow
             os.close();
 
-            saveLocationFlag();
+            Log.d("comments", "Maps: latText=" + latText + ", lontext=" + lonText + ", content=" + content);
+            Intent intent = new Intent(this,GetDirections.class);
+            startActivity(intent);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    public void saveLocationFlag(){
-
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(locationFlagKey, true);
-        editor.apply();
-
-        Intent intent = new Intent(this, GetDirections.class);
-        startActivity(intent);
     }
 
     @Override

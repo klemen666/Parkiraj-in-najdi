@@ -22,4 +22,7 @@
     <string name="title_activity_get_walking_direction">GetWalkingDirection</string>
     <string name="showWalkNav">Pokazi pot do parkirisca!</string>
     <string name="resetFlag">Izbriši parkirišče!</string>
+    <string name="walkNav">Hodi do parkirisca.</string>
+    <string name="busNav">Bus do parkirisca.</string>
+    <string name="driveNav">Pelji do parkirisca.</string>
 </resources>

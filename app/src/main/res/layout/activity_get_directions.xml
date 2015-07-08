@@ -26,17 +26,42 @@
 
     <Button
         android:id="@+id/flagFalse"
-        android:onClick="setLocationFlag"
+        android:onClick="izbrisiLokacijo"
         android:layout_below="@+id/lonText"
         android:text="@string/resetFlag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-<!--
+
     <Button
-        android:id="@+id/showWalkNav"
-        android:text="@string/showWalkNav"
-        android:onClick="showWalkNav"
+        android:id="@+id/walkNav"
+        android:onClick="walkNavigation"
+        android:layout_below="@+id/flagFalse"
+        android:text="@string/walkNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-        -->
+
+    <Button
+        android:id="@+id/busNav"
+        android:onClick="busNavigation"
+        android:layout_below="@+id/walkNav"
+        android:text="@string/busNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/driveNav"
+        android:onClick="driveNavigation"
+        android:layout_below="@+id/busNav"
+        android:text="@string/walkNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--
+        <Button
+            android:id="@+id/showWalkNav"
+            android:text="@string/showWalkNav"
+            android:onClick="showWalkNav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+            -->
 </RelativeLayout>

@@ -8,19 +8,30 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
+import java.io.FileInputStream;
+
 
 public class FirstActivity extends ActionBarActivity {
-    String locationFlagKey = "LocationFlag";
-    String sharedPref = "sharedPref";
+    // ime datoteke
+    public String locationFile = "lokacija";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
-        // keys
-        locationFlagKey = getResources().getString(R.string.locationFlagKey);
-        sharedPref = getResources().getString(R.string.sharedPref);
+
+        String lokacija = readFromfile(locationFile);
+        Log.d("comments", "First: String content = " + lokacija);
+        if (lokacija.isEmpty()) {
+            Intent intent1 = new Intent(this, MainActivity.class);
+            startActivity(intent1);
+        } else {
+            Intent intent2 = new Intent(this,GetDirections.class);
+            startActivity(intent2);
+        }
+
     }
 
     @Override
@@ -30,34 +41,39 @@ public class FirstActivity extends ActionBarActivity {
         return true;
     }
 
+    /*
     @Override
     protected void onStart() {
         super.onStart();
-        // read from SharedPreferences
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
-        boolean locationFlag = sharedPreferences.getBoolean(locationFlagKey, false);
+    }
+    */
 
-        Log.i("Comments", "FirstActivity - prebrano: flag=" + locationFlag);
-        Intent intent = getIntent();
-        locationFlag = Boolean.valueOf(intent.getStringExtra("locationFlag"));
+    private String readFromfile(String filename){
 
+        // create input stream
+        FileInputStream inputStream;
 
+        //ugotovimo, koliko je velika datoteka
+        File file = new File(getFilesDir(), filename);
+        int length = (int) file.length();
 
-        // check if first run
-        if (locationFlag == true) {
-            // TO-DO: append location data (latitude and longitude)
-            Log.i("Comments", "firstActivity: locationFlag == true");
-            Intent intent2 = new Intent(this, GetDirections.class);
-            startActivity(intent2);
+        // initializing temp var
+        byte[] bytes = new byte[length];
+
+        // read data
+        try {
+            inputStream = openFileInput(filename);
+            inputStream.read(bytes);
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        else {
-            Log.i("Comments", "firstActivity: locationFlag == false");
-            // start MainActivity
-            Intent intent1f = new Intent(this, MainActivity.class);
-            startActivity(intent1f);
-            }
-        }
+
+        // convert from bytes to string
+        String content = new String(bytes);
+        return content;
+    }
 
 /*
     @Override

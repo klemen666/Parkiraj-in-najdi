@@ -3,6 +3,7 @@ package si.uni_lj.fe.tnvu.parkirajinnajdi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,16 +15,14 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 
 public class GetDirections extends ActionBarActivity {
-    String locationLatitudeKey = "locLatitude";
-    String locationLongitudeKey = "locLongitude";
-    String locationFlagKey = "LocationFlag";
-    String sharedPref = "sharedPref";
-    String locationPref = "locationPref";
-    String locationFile = "locationFile";
+    public String locationFile = "lokacija";
 
+    public String latitude;
+    public String longitude;
 
 
     @Override
@@ -31,13 +30,19 @@ public class GetDirections extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_directions);
 
-        String locationFlagKey = getResources().getString(R.string.locationFlagKey);
-        String locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
-        String locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
-        String sharedPref = getResources().getString(R.string.sharedPref);
-        String locationPref = getResources().getString(R.string.locationPref);
-        String latitude;
-        String longitude;
+
+        String lokacija = readFromfile(locationFile);
+        String[] loca = lokacija.split("-");
+
+        latitude = loca[0];
+        longitude = loca[1];
+
+
+        TextView izpisLat = (TextView) findViewById(R.id.latText);
+        izpisLat.setText("Latitude: " + latitude);
+
+        TextView izpisLon = (TextView) findViewById(R.id.lonText);
+        izpisLon.setText("Longitude: " + longitude);
 
     }
 
@@ -48,69 +53,27 @@ public class GetDirections extends ActionBarActivity {
         return true;
     }
 
-
+/*
     @Override
     public void onStart() {
         super.onStart();
-        /**
-         * Read from shared preferences.
-         * locationFlagKey
-         * locationLatitudeKey
-         * locationLongitudeKey
-         */
-/*
-        SharedPreferences locationFlagSharedPref = getApplicationContext().getSharedPreferences(locationFlagKey, Context.MODE_PRIVATE);
-        String locationFlag = locationFlagSharedPref.getString(locationFlagKey, "false");
 
-        SharedPreferences locationLatitudeSharedPref = getApplicationContext().getSharedPreferences(locationLatitudeKey, MODE_PRIVATE);
-        double latitude = Double.longBitsToDouble(locationLatitudeSharedPref.getLong(locationLatitudeKey, 0));
+        String lokacija = readFromfile(locationFile);
+        String[] loca = lokacija.split("-");
 
-        SharedPreferences locationLongitudeSharedPref = getApplicationContext().getSharedPreferences(locationLongitudeKey, Context.MODE_PRIVATE);
-        //double longitude = Double.longBitsToDouble(locationLongitudeSharedPref.getLong(locationLongitudeKey, 0));
-        String longitude = locationLongitudeSharedPref.getString(locationLongitudeKey, "nekbrezvezennapis");
-*/
-
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
-//        String longitude = sharedPreferences.getString(locationLongitudeKey, "lonVal");
-//        String latitude = sharedPreferences.getString(locationLatitudeKey, "latVal");
-        boolean locationFlag = sharedPreferences.getBoolean(locationFlagKey, true);
-
-        String[] lokacija = readFromfile(locationFile);
-        Integer dolzina = lokacija.length;
-        Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(dolzina), Toast.LENGTH_LONG);
-        toast.show();
-//        String latitude = lokacija[0];
-//        String longitude = lokacija[1];
-
-        String longitude = "bla";
-        String latitude = "blabla";
+        String latitude = loca[0];
+        String longitude = loca[1];
 
 
-/*
-        SharedPreferences locationSharedPref = getApplicationContext().getSharedPreferences(locationPref, MODE_PRIVATE);
-        String latitude = locationSharedPref.getString(locationLatitudeKey, "0");
-        String longitude = locationSharedPref.getString(locationLongitudeKey, "0");
-
-        Intent intent = getIntent();
-        latitude = intent.getStringExtra("latitude");
-        longitude = intent.getStringExtra("longitude");
-*/
         TextView izpisLat = (TextView) findViewById(R.id.latText);
         izpisLat.setText("Latitude: " + latitude);
 
         TextView izpisLon = (TextView) findViewById(R.id.lonText);
         izpisLon.setText("Longitude: " + longitude);
-
-        TextView izpisLoc = (TextView) findViewById(R.id.izpisLocFlag);
-        izpisLoc.setText("locationFlag (def F): " + locationFlag);
-        Log.i("Comments", "GetDirections - prebrano: flag=" + locationFlag);
-
-//        saveLocation(latitude, longitude);
-
     }
+*/
 
-
-    private String[] readFromfile(String filename){
+    private String readFromfile(String filename){
 
         // create input stream
         FileInputStream inputStream;
@@ -133,23 +96,48 @@ public class GetDirections extends ActionBarActivity {
 
         // convert from bytes to string
         String content = new String(bytes);
-
-
-        String[] locationString = content.split("|");
-        return locationString;
+        Log.d("comments", "Get Dir: String content = " + content);
+        return content;
     }
 
 
-    public void setLocationFlag(View view) {
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(locationFlagKey, false);
-        editor.commit();
-        Log.i("Comments", "GetDirections: locationFlag set to false");
+    public void izbrisiLokacijo(View view){
+        try {
+            // output flow
+            FileOutputStream os = openFileOutput(locationFile, Context.MODE_PRIVATE);
+            // join latitude and longitude
+            String content = "";
+            // write content to file
+            os.write(content.getBytes());
+            // closing output flow
+            os.close();
 
-        Intent intent = new Intent(this,FirstActivity.class);
-        intent.putExtra("locationFlag", false);
-//        startActivity(intent);
+            Log.d("comments", "Get Dir: izbrisiLokacijo");
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
+        } catch (Exception e) {
+            Log.d("comments", "Get Dir: exception");
+            e.printStackTrace();
+        }
+    }
+
+    public void walkNavigation(View view) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+        Uri.parse(String.format("google.navigation:q=" + latitude +"," + longitude + "&mode=w")));
+        startActivity(intent);
+    }
+
+    public void busNavigation(View view) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse(String.format("google.navigation:q=" + latitude +"," + longitude + "&mode=b")));
+        startActivity(intent);
+    }
+
+    public void driveNavigation(View view) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse(String.format("google.navigation:q=" + latitude +"," + longitude + "&mode=d")));
+        startActivity(intent);
     }
 
 /*

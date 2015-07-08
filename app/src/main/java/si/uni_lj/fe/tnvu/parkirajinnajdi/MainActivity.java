@@ -40,10 +40,6 @@ import si.uni_lj.fe.tnvu.parkirajinnajdi.R;
 public class MainActivity extends ActionBarActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    String locationLatitudeKey = "LocationLatitude";
-    String locationLongitudeKey = "locLongitude";
-    String locationFlagKey = "LocationFlag";
-    String sharedPref = "sharedPred";
     String lonText;
     String latText;
 
@@ -122,10 +118,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
          * locationLongitudeKey
          */
 
-        locationFlagKey = getResources().getString(R.string.locationFlagKey);
-        locationLatitudeKey = getResources().getString(R.string.locationLatitudeKey);
-        locationLongitudeKey = getResources().getString(R.string.locationLongitudeKey);
-        sharedPref = getResources().getString(R.string.sharedPref);
     }
 
     /**
@@ -214,9 +206,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         double latitude = mCurrentLocation.getLatitude();
         double longitude = mCurrentLocation.getLongitude();
 
-        Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(longitude), Toast.LENGTH_LONG);
-        //toast.show();
-
         String lonText = String.valueOf(longitude);
         String latText = String.valueOf(latitude);
 
@@ -233,22 +222,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         //intent.putExtra(LATITUDE, latitude);
         //intent.putExtra(LONGITUDE, longitude);
         startActivity(intent);
-    }
-
-    private void savePreferences(String latText, String lonText) {
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString(locationLongitudeKey, lonText);
-//        editor.putString(locationLatitudeKey, latText);
-        editor.putBoolean(locationFlagKey, true);
-        editor.apply();
-
-        Intent intent = new Intent(this, GetDirections.class);
-        intent.putExtra("latitude", latText);
-        intent.putExtra("longitude", lonText);
-        startActivity(intent);
-
-        Log.i("Comments", "MainActivity/savePreferences: lat, long, flag=true");
     }
 
 
