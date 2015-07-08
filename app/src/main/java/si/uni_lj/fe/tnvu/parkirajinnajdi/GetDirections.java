@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -75,8 +76,14 @@ public class GetDirections extends ActionBarActivity {
         boolean locationFlag = sharedPreferences.getBoolean(locationFlagKey, true);
 
         String[] lokacija = readFromfile(locationFile);
-        String latitude = lokacija[0];
-        String longitude = lokacija[1];
+        Integer dolzina = lokacija.length;
+        Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(dolzina), Toast.LENGTH_LONG);
+        toast.show();
+//        String latitude = lokacija[0];
+//        String longitude = lokacija[1];
+
+        String longitude = "bla";
+        String latitude = "blabla";
 
 
 /*
@@ -101,15 +108,7 @@ public class GetDirections extends ActionBarActivity {
 //        saveLocation(latitude, longitude);
 
     }
-/*
-    private void saveLocation(String latitude, String longitude) {
-        SharedPreferences locationSharedPref = getApplicationContext().getSharedPreferences(locationPref, MODE_PRIVATE);
-        SharedPreferences.Editor editor = locationSharedPref.edit();
-        editor.putString(locationLatitudeKey, latitude);
-        editor.putString(locationLongitudeKey, longitude);
-        editor.commit();
-    }
-*/
+
 
     private String[] readFromfile(String filename){
 
@@ -136,7 +135,7 @@ public class GetDirections extends ActionBarActivity {
         String content = new String(bytes);
 
 
-        String[] locationString = content.split(":");
+        String[] locationString = content.split("|");
         return locationString;
     }
 

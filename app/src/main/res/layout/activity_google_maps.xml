@@ -11,7 +11,7 @@
     android:layout_height="match_parent" />
 
 <Button
-    android:id="@+id/shraniButtton"
+    android:id="@+id/saveButton"
     android:text="@string/shraniLokacijo"
     android:onClick="saveToFile"
     android:layout_width="match_parent"

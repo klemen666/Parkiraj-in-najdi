@@ -215,7 +215,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         double longitude = mCurrentLocation.getLongitude();
 
         Toast toast = Toast.makeText(getApplicationContext(), String.valueOf(longitude), Toast.LENGTH_LONG);
-        toast.show();
+        //toast.show();
 
         String lonText = String.valueOf(longitude);
         String latText = String.valueOf(latitude);

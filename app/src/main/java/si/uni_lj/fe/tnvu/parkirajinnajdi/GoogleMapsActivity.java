@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,8 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
     protected final static String LOCATION_KEY = "location-key";
     protected final static String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
 
+    protected Button saveButton;
+
 
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
@@ -65,6 +68,11 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
 
     public String latText;
     public String lonText;
+    public String locationFlagKey;
+    public String sharedPref;
+
+    public String filename = "lokacija.txt";
+
 
     View view;
 
@@ -80,6 +88,9 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
         latText = intent.getStringExtra("latitude");
         lonText = intent.getStringExtra("longitude");
 
+        saveButton = (Button) findViewById(R.id.saveButton);
+        locationFlagKey = getResources().getString(R.string.locationFlagKey);
+        sharedPref = getResources().getString(R.string.sharedPref);
     }
 
 
@@ -169,9 +180,9 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
                 mGoogleApiClient, mLocationRequest, this);
     }
 
-    private void saveToFile(String latText, String lonText, String filename){
+//    private void saveToFile(String latText, String lonText, String filename)
+    public void saveToFile(View view){
         try {
-
             // output flow
             FileOutputStream os = openFileOutput(filename, Context.MODE_PRIVATE);
             // join latitude and longitude
@@ -181,12 +192,23 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
             // closing output flow
             os.close();
 
-            Intent intentDirections = new Intent(this, GetDirections.class);
-            startActivity(intentDirections);
+            saveLocationFlag();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void saveLocationFlag(){
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(sharedPref, MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(locationFlagKey, true);
+        editor.apply();
+
+        Intent intent = new Intent(this, GetDirections.class);
+        startActivity(intent);
     }
 
     @Override
@@ -243,15 +265,6 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
         mGoogleApiClient.disconnect();
     }
 
-
-    public void saveLocation(){
-
-        SharedPreferences prevLoc = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prevLoc.edit();
-        editor.putString("prevLat", Double.toString(mCurrentLocation.getLatitude()));
-        editor.putString("prevLong", Double.toString(mCurrentLocation.getLongitude()));
-        editor.commit();
-    }
 
     /**
      * Stores activity data in the Bundle.
