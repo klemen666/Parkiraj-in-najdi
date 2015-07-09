@@ -2,14 +2,20 @@ package si.uni_lj.fe.tnvu.parkirajinnajdi;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.location.LocationManager;
+import android.media.audiofx.BassBoost;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,11 +118,12 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // API.
         buildGoogleApiClient();
 
-        /**
-         * locationFlagKey
-         * locationLatitudeKey
-         * locationLongitudeKey
+        /*
+        Check for location and network services state.
+        Require enabled.
          */
+
+        checkLocationServices();
 
     }
 
@@ -166,6 +173,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         createLocationRequest();
     }
 
+
+
     /**
      * Sets up the location request. Android has two location request settings:
      * {@code ACCESS_COARSE_LOCATION} and {@code ACCESS_FINE_LOCATION}. These settings control
@@ -203,18 +212,24 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // start location updates
         startLocationUpdates();
 
-        double latitude = mCurrentLocation.getLatitude();
-        double longitude = mCurrentLocation.getLongitude();
+        double latitude = 0;
+        double longitude = 0;
+        try {
+            latitude = mCurrentLocation.getLatitude();
+            longitude = mCurrentLocation.getLongitude();
+        } catch (Exception e) {
+            Exception exception;
+        }
 
+        /**
+         * Convert double latitude and longitude to string.
+         * Pass it to intent --> GoogleMapsActivity.
+         * In GMapsActivitiy it shoul be saved to file.
+         */
         String lonText = String.valueOf(longitude);
         String latText = String.valueOf(latitude);
 
-        /**
-         *  Save latitude and longitude data.
-         *  Convert from double do long bits.
-         */
 
-//        savePreferences(latText, lonText);
 
         Intent intent = new Intent(this, GoogleMapsActivity.class);
         intent.putExtra("latitude", latText);
@@ -261,6 +276,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         }
     }*/
 
+
     /**
      * Removes location updates from the FusedLocationApi.
      */
@@ -274,11 +290,82 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
+
+    /**
+     * Check for location services and network access.
+     * Google maps and GMaps api won't work without.
+     *
+     * Put alert.
+     * Open a dialog with cancel and settings button.
+     */
+    protected void checkLocationServices() {
+        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        }
+        catch (Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        }
+        catch (Exception ex) {}
+
+        if (!gps_enabled && !network_enabled) {
+            // Notification about network and location services
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            // dialog text
+            dialog.setMessage(getApplicationContext().getResources().getString(R.string.gps_not_enabled));
+            // dialog positive Button
+            dialog.setPositiveButton(getApplicationContext().getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // intent --> location settings
+                    Intent gps_settings_intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(gps_settings_intent);
+                }
+            }
+            );
+            // dialog negative Button
+            dialog.setNegativeButton(getApplicationContext().getString(R.string.cancel), new DialogInterface.OnClickListener(){
+
+                @Override
+            public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                }
+            });
+
+            // show dialog
+            dialog.show();
+        }
+    }
+
+    /*
+    Exit application on back key press.
+    Intent --> FirstActivity --> check intent extra flag.
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(this, FirstActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+
     @Override
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
     }
+
+
 
     @Override
     public void onResume() {
@@ -292,6 +379,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         }
     }
 
+
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -301,11 +390,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         }
     }
 
+
+
     @Override
     protected void onStop() {
         super.onStop();
         mGoogleApiClient.disconnect();
     }
+
+
 
     /**
      * Runs when a GoogleApiClient object successfully connects.
@@ -338,6 +431,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         }
     }
 
+
+
     /**
      * Callback that fires when the location changes.
      */
@@ -350,6 +445,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
                 Toast.LENGTH_LONG).show();
     }
 
+
+
     @Override
     public void onConnectionSuspended(int cause) {
         // The connection to Google Play services was lost for some reason. We call connect() to
@@ -358,12 +455,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         mGoogleApiClient.connect();
     }
 
+
+
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
         // onConnectionFailed.
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
+
 
 
     /**

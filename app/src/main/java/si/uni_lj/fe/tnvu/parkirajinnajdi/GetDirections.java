@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,8 @@ public class GetDirections extends ActionBarActivity {
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -72,6 +75,8 @@ public class GetDirections extends ActionBarActivity {
         izpisLon.setText("Longitude: " + longitude);
     }
 */
+
+
 
     private String readFromfile(String filename){
 
@@ -101,6 +106,7 @@ public class GetDirections extends ActionBarActivity {
     }
 
 
+
     public void izbrisiLokacijo(View view){
         try {
             // output flow
@@ -122,11 +128,15 @@ public class GetDirections extends ActionBarActivity {
         }
     }
 
+
+
     public void walkNavigation(View view) {
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
         Uri.parse(String.format("google.navigation:q=" + latitude +"," + longitude + "&mode=w")));
         startActivity(intent);
     }
+
+
 
     public void busNavigation(View view) {
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
@@ -134,31 +144,45 @@ public class GetDirections extends ActionBarActivity {
         startActivity(intent);
     }
 
+
+
     public void driveNavigation(View view) {
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse(String.format("google.navigation:q=" + latitude +"," + longitude + "&mode=d")));
         startActivity(intent);
     }
 
-/*
-    public void showWalkNav(View view) {
-        // vstavi intent na google maps navigation
-        String dLat = "14.493945";
-        String dLong = "46.046988";
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + dLat + "," + dLong + "&mode=w"));
-        startActivity(intent);
+
+
+    /*
+    Exit application on back key press.
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            Intent intent = new Intent(this, FirstActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+        }
+        return super.onKeyDown(keyCode, event);
     }
-    */
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
     }
 
+
+
     @Override
     protected void onStop() {
         super.onStop();
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

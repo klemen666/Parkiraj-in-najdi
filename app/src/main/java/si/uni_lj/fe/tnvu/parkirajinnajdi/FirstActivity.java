@@ -22,7 +22,17 @@ public class FirstActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        String lokacija = readFromfile(locationFile);
+        /**
+        * Intent on back key press.
+         * Exit app.
+        */
+
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+            return;
+        }
+
+                String lokacija = readFromfile(locationFile);
         Log.d("comments", "First: String content = " + lokacija);
         if (lokacija.isEmpty()) {
             Intent intent1 = new Intent(this, MainActivity.class);
