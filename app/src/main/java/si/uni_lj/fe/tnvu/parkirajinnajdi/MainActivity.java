@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.audiofx.BassBoost;
@@ -37,8 +39,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import si.uni_lj.fe.tnvu.parkirajinnajdi.R;
 
@@ -99,6 +105,9 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
      * Time when the location was updated represented as a String.
      */
     protected String mLastUpdateTime;
+
+    // Address name from reverse geocoding
+    public String locationAddress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -221,6 +230,37 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             Exception exception;
         }
 
+
+        /*
+        Get location address.
+        Reverse Geocoding.
+         */
+        Geocoder geocoder;
+        List<Address> addresses = null;
+        geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1); // 1 ... get a single address
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // If no address found.
+        if (addresses == null || addresses.size() == 0) {
+            Log.e("comments", "Ni najdenega naslova!");
+        }
+        else {
+            Address address = addresses.get(0);
+            ArrayList<String> addressFragments = new ArrayList<String>();
+            // fetch address
+            for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                addressFragments.add(address.getAddressLine(i));
+            }
+            // Toast.makeText(getApplicationContext(), "obcina " + addressFragments.get(1), Toast.LENGTH_LONG).show();
+            locationAddress = addressFragments.get(0) + ", " + addressFragments.get(1);
+        }
+
+
         /**
          * Convert double latitude and longitude to string.
          * Pass it to intent --> GoogleMapsActivity.
@@ -230,15 +270,15 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         String latText = String.valueOf(latitude);
 
 
-
         Intent intent = new Intent(this, GoogleMapsActivity.class);
         intent.putExtra("latitude", latText);
         intent.putExtra("longitude", lonText);
-        intent.putExtra("cas", mLastUpdateTime);
+        intent.putExtra("locationAddress", locationAddress);
         //intent.putExtra(LATITUDE, latitude);
         //intent.putExtra(LONGITUDE, longitude);
         startActivity(intent);
     }
+
 
 
     /**
@@ -278,6 +318,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
     }*/
 
 
+
     /**
      * Removes location updates from the FusedLocationApi.
      */
@@ -290,6 +331,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
+
 
 
     /**
@@ -342,6 +384,8 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             dialog.show();
         }
     }
+
+
 
     /*
     Exit application on back key press.
@@ -431,7 +475,6 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
             startLocationUpdates();
         }
     }
-
 
 
     /**

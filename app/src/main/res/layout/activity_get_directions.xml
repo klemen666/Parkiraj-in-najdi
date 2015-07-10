@@ -14,13 +14,27 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="si.uni_lj.fe.tnvu.parkirajinnajdi.GetDirections">
+    tools:context="si.uni_lj.fe.tnvu.parkirajinnajdi.GetDirections"
+    android:background="#dddddd">
 
+
+    <TextView
+        android:id="@+id/locationPrintOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_box"
+        android:textColor="#ffffff"
+        android:textSize="25dp"/>
 
     <TextView
         android:id="@+id/timePrintOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/locationPrintOut"
+        android:background="@drawable/rounded_box"
+        android:textColor="#ffffff"
         android:textSize="25dp"/>
 
     <Button
@@ -28,6 +42,7 @@
         android:onClick="walkNavigation"
         android:layout_below="@+id/timePrintOut"
         android:text="@string/walkNav"
+        android:textColor="#0067a8"
         android:gravity="left|center_vertical"
         android:drawablePadding="40dp"
         android:textSize="18dp"
@@ -42,6 +57,7 @@
         android:onClick="busNavigation"
         android:layout_below="@+id/walkNav"
         android:text="@string/busNav"
+        android:textColor="#0067a8"
         android:gravity="left|center_vertical"
         android:drawablePadding="40dp"
         android:textSize="18dp"
@@ -56,6 +72,7 @@
         android:onClick="driveNavigation"
         android:layout_below="@+id/busNav"
         android:text="@string/driveNav"
+        android:textColor="#0067a8"
         android:gravity="left|center_vertical"
         android:drawablePadding="40dp"
         android:textSize="18dp"
@@ -70,6 +87,7 @@
         android:onClick="confirmDelete"
         android:layout_below="@+id/driveNav"
         android:text="@string/resetFlag"
+        android:textColor="#0067a8"
         android:gravity="left|center_vertical"
         android:drawablePadding="40dp"
         android:textSize="18dp"
@@ -79,14 +97,7 @@
         android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <!--
-        <Button
-            android:id="@+id/showWalkNav"
-            android:text="@string/showWalkNav"
-            android:onClick="showWalkNav"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-            -->
+
 </RelativeLayout>
 
 

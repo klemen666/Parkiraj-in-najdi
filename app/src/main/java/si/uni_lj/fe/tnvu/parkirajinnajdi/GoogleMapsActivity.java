@@ -69,6 +69,7 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
     public String latText;
     public String lonText;
     public String cas;
+    public String locationAddress;
     // ime datoteke
     public String filename = "lokacija";
 
@@ -86,7 +87,8 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
         Intent intent = getIntent();
         latText = intent.getStringExtra("latitude");
         lonText = intent.getStringExtra("longitude");
-        cas = intent.getStringExtra("cas");
+        locationAddress = intent.getStringExtra("locationAddress");
+
 
         saveButton = (Button) findViewById(R.id.saveButton);
     }
@@ -164,9 +166,14 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
             marker.remove();
         }
 
+        // Check location Address
+        if (locationAddress == null) {
+            locationAddress = "Zapomnili smo si vaso lokacijo";
+        }
+
         marker = mMap.addMarker(new MarkerOptions()
                 .title("Lokacija")
-                .snippet("Zapomnili smo si vaso lokacijo")
+                .snippet(locationAddress)
                 .position(LatLngZemljevid));
                 marker.showInfoWindow();
     }
@@ -184,7 +191,7 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
             // output flow
             FileOutputStream os = openFileOutput(filename, Context.MODE_PRIVATE);
             // join latitude and longitude
-            String content = latText + "-" + lonText + "-" + cas;
+            String content = latText + "-" + lonText + "-" + cas + "-" + locationAddress;
             // write content to file
             os.write(content.getBytes());
             // closing output flow

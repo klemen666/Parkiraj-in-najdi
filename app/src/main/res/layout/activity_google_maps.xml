@@ -1,7 +1,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#dddddd">
 
 <TableLayout
     android:layout_width="match_parent"
@@ -13,6 +14,8 @@
         <Button
             android:id="@+id/saveButton"
             android:text="@string/shraniLokacijo"
+            android:textColor="#0067a8"
+            android:textSize="18dp"
             android:onClick="saveToFile"
             android:layout_marginLeft="10dp"
             android:paddingLeft="10dp"
@@ -31,6 +34,8 @@
         <Button
             android:id="@+id/cancelButton"
             android:text="@string/cancel"
+            android:textColor="#0067a8"
+            android:textSize="18dp"
             android:onClick="cancelLocation"
             android:layout_marginLeft="50dp"
             android:paddingLeft="10dp"

@@ -30,6 +30,7 @@ public class GetDirections extends ActionBarActivity {
     public String latitude;
     public String longitude;
     public String cas;
+    public String locationAddress;
 
 
     @Override
@@ -44,9 +45,16 @@ public class GetDirections extends ActionBarActivity {
         latitude = loca[0];
         longitude = loca[1];
         cas = loca[2];
+        locationAddress = loca[3];
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
         Log.d("comments", "Get Dir: cas = " + currentDateandTime);
+
+        TextView locationPrint = (TextView) findViewById(R.id.locationPrintOut);
+        locationPrint.setText(getResources().getString(R.string.naslov) + locationAddress);
+
+        TextView timePrint = (TextView) findViewById(R.id.timePrintOut);
+        timePrint.setText("Parkirali ste ob " + currentDateandTime);
 
 /*
         TextView izpisLat = (TextView) findViewById(R.id.latText);
