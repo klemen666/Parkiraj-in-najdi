@@ -234,6 +234,7 @@ public class MainActivity extends ActionBarActivity implements GoogleApiClient.C
         Intent intent = new Intent(this, GoogleMapsActivity.class);
         intent.putExtra("latitude", latText);
         intent.putExtra("longitude", lonText);
+        intent.putExtra("cas", mLastUpdateTime);
         //intent.putExtra(LATITUDE, latitude);
         //intent.putExtra(LONGITUDE, longitude);
         startActivity(intent);

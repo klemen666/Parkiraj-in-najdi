@@ -1,24 +1,27 @@
 <resources>
     <string name="app_name">Parkiraj in najdi</string>
 
+    <string name="title_activity_first">Parkiraj in najdi</string>
+
     <string name="show_Map">Pokazi lokacijo</string>
     <string name="action_settings">Nastavitve</string>
-    <string name="location_updated_message">Lokacija posodobljena</string>
-    <string name="title_activity_google_maps">Prikaži na zemljevidu</string>
-    <string name="title_activity_first">Parkiraj in najdi</string>
-    <string name="shraniLokacijo">Shrani lokacijo</string>
-
-
-    <string name="gps_not_enabled">Lokacijske storitve so izkljucene!</string>
-    <string name="network_not_enabled">Omrezje ni vkljuceno!</string>
+    <string name="gps_not_enabled">Lokacijske storitve so izključene!</string>
+    <string name="network_not_enabled">Omrežje ni vključeno!</string>
     <string name="open_location_settings">Odpri nastavitve lokacije!</string>
-    <string name="cancel">Preklici!</string>
+
+
+    <string name="title_activity_google_maps">Prikaži na zemljevidu</string>
+    <string name="location_updated_message">Lokacija posodobljena</string>
+        <string name="shraniLokacijo">Shrani</string>
+        <string name="cancel">Prekliči</string>
+
 
 
     <string name="title_activity_get_walking_direction">Navigacija do parkirišča</string>
-    <string name="showWalkNav">Pokazi pot do parkirišča!</string>
-    <string name="resetFlag">Izbriši parkirišče!</string>
-    <string name="walkNav">Hodi do parkirišča.</string>
-    <string name="busNav">Bus do parkirišča.</string>
-    <string name="driveNav">Pelji do parkirišča.</string>
+        <string name="confirmDelete">Želite izbrisati parkirišče?</string>
+        <string name="showWalkNav">Pokaži pot do parkirišča</string>
+        <string name="resetFlag">Izbriši parkirišče</string>
+        <string name="walkNav">Hoja do parkirišča</string>
+        <string name="busNav">Vodi do parkirišča</string>
+        <string name="driveNav">Vožnja do parkirišča</string>
 </resources>

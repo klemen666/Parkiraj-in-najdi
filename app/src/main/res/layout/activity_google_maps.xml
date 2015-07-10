@@ -3,20 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tabela">
 
-<fragment
+    <TableRow>
+
+        <Button
+            android:id="@+id/saveButton"
+            android:text="@string/shraniLokacijo"
+            android:onClick="saveToFile"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="10dp"
+            android:drawablePadding="15dp"
+            android:textAlignment="center"
+            android:drawableLeft="@drawable/check48"
+            android:background="@android:color/transparent"
+            android:layout_alignParentLeft="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:text="@string/cancel"
+            android:onClick="cancelLocation"
+            android:layout_marginLeft="50dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
+            android:drawablePadding="15dp"
+            android:textAlignment="center"
+            android:drawableLeft="@drawable/cancel48"
+            android:background="@android:color/transparent"
+            android:layout_alignParentRight="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </TableRow>
+
+</TableLayout>
+
+
+    <fragment
     android:name="com.google.android.gms.maps.MapFragment"
     android:id="@+id/map"
+    android:layout_below="@+id/tabela"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 
-<Button
-    android:id="@+id/saveButton"
-    android:text="@string/shraniLokacijo"
-    android:onClick="saveToFile"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    />
 
 
 </RelativeLayout>

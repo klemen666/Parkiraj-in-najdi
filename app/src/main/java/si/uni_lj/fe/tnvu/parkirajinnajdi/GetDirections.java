@@ -1,6 +1,8 @@
 package si.uni_lj.fe.tnvu.parkirajinnajdi;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -11,12 +13,15 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class GetDirections extends ActionBarActivity {
@@ -24,6 +29,7 @@ public class GetDirections extends ActionBarActivity {
 
     public String latitude;
     public String longitude;
+    public String cas;
 
 
     @Override
@@ -37,14 +43,18 @@ public class GetDirections extends ActionBarActivity {
 
         latitude = loca[0];
         longitude = loca[1];
+        cas = loca[2];
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String currentDateandTime = sdf.format(new Date());
+        Log.d("comments", "Get Dir: cas = " + currentDateandTime);
 
-
+/*
         TextView izpisLat = (TextView) findViewById(R.id.latText);
         izpisLat.setText("Latitude: " + latitude);
 
         TextView izpisLon = (TextView) findViewById(R.id.lonText);
         izpisLon.setText("Longitude: " + longitude);
-
+*/
     }
 
 
@@ -107,8 +117,14 @@ public class GetDirections extends ActionBarActivity {
 
 
 
-    public void izbrisiLokacijo(View view){
+    /*
+    Save empty string to file.
+    Also used in FirstActivity to check if location is saved.
+     */
+
+    public void izbrisiLokacijo(){
         try {
+            Log.d("comments", "izbrisiLokacijo");
             // output flow
             FileOutputStream os = openFileOutput(locationFile, Context.MODE_PRIVATE);
             // join latitude and longitude
@@ -126,6 +142,42 @@ public class GetDirections extends ActionBarActivity {
             Log.d("comments", "Get Dir: exception");
             e.printStackTrace();
         }
+    }
+
+
+
+    /*
+    Alert dialog.
+     */
+
+    public void confirmDelete(View view) {
+        Log.d("comments", "Confirm Delete");
+        AlertDialog.Builder dialog = new AlertDialog.Builder(GetDirections.this);
+        // dialog text
+        dialog.setMessage(getApplicationContext().getResources().getString(R.string.confirmDelete));
+        // Add the buttons
+        // dialog Positive Button
+        dialog.setPositiveButton(getApplicationContext().getResources().getString(R.string.resetFlag), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // User clicked OK button
+                        izbrisiLokacijo();
+                    }
+                }
+        );
+        // dialog Negative Button
+        dialog.setNegativeButton(getApplicationContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+        // Set other dialog properties
+
+        // Create the AlertDialog
+        // AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
 
