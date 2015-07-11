@@ -20,6 +20,7 @@
     <string name="title_activity_get_walking_direction">Navigacija do parkirišča</string>
         <string name="confirmDelete">Želite izbrisati parkirišče?</string>
         <string name="naslov">Naslov parkirišča\n</string>
+        <string name="casParkiranja">Čas parkiranja</string>
         <string name="showWalkNav">Pokaži pot do parkirišča</string>
         <string name="resetFlag">Izbriši parkirišče</string>
         <string name="walkNav">Hoja do parkirišča</string>

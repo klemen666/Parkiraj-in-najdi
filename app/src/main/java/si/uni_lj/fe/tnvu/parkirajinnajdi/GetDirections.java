@@ -29,8 +29,11 @@ public class GetDirections extends ActionBarActivity {
 
     public String latitude;
     public String longitude;
-    public String cas;
+    public String parkingTime;
     public String locationAddress;
+    public long parkingTimeLong;
+    public long currentTime;
+    public String timeDiff;
 
 
     @Override
@@ -44,17 +47,18 @@ public class GetDirections extends ActionBarActivity {
 
         latitude = loca[0];
         longitude = loca[1];
-        cas = loca[2];
+        parkingTime = loca[2];
         locationAddress = loca[3];
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        String currentDateandTime = sdf.format(new Date());
-        Log.d("comments", "Get Dir: cas = " + currentDateandTime);
+
+        timeDiff = getTimeDiff(parkingTime);
+
+
 
         TextView locationPrint = (TextView) findViewById(R.id.locationPrintOut);
         locationPrint.setText(getResources().getString(R.string.naslov) + locationAddress);
 
         TextView timePrint = (TextView) findViewById(R.id.timePrintOut);
-        timePrint.setText("Parkirali ste ob " + currentDateandTime);
+        timePrint.setText("Cas parkiranja " + timeDiff);
 
 /*
         TextView izpisLat = (TextView) findViewById(R.id.latText);
@@ -63,6 +67,25 @@ public class GetDirections extends ActionBarActivity {
         TextView izpisLon = (TextView) findViewById(R.id.lonText);
         izpisLon.setText("Longitude: " + longitude);
 */
+    }
+
+
+    /*
+    Get current time and time difference between current and "parking time".
+     */
+    public String getTimeDiff(String parkingTime) {
+        parkingTimeLong = Long.valueOf(parkingTime);
+        currentTime = System.currentTimeMillis();
+        Long timeDiffLong = currentTime - parkingTimeLong;
+
+        long diffSeconds = timeDiffLong / 1000 % 60;
+        long diffMinutes = timeDiffLong / (60 * 1000) % 60;
+        long diffHours = timeDiffLong / (60 * 60 * 1000) % 24;
+
+        String minutes = String.format("%02d", diffMinutes);
+        String hours = String.format("%02d", diffHours);
+        return hours + ":" + minutes;
+        // return (new SimpleDateFormat("hh:mm")).format(timeDiffLong);
     }
 
 

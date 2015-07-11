@@ -187,6 +187,7 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
 
 //    private void saveToFile(String latText, String lonText, String filename)
     public void saveToFile(View view){
+        cas = Long.toString(System.currentTimeMillis());
         try {
             // output flow
             FileOutputStream os = openFileOutput(filename, Context.MODE_PRIVATE);
