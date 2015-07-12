@@ -12,18 +12,22 @@
 
     <string name="title_activity_google_maps">Prikaži na zemljevidu</string>
     <string name="location_updated_message">Lokacija posodobljena</string>
-        <string name="shraniLokacijo">Shrani</string>
-        <string name="cancel">Prekliči</string>
+    <string name="locationErrorMessage">Lokacijske storitve so izključene! Vrnite se na prejšnji zaslon in jih vključite!</string>
+    <string name="shraniLokacijo">Shrani</string>
+    <string name="cancel">Prekliči</string>
+
 
 
 
     <string name="title_activity_get_walking_direction">Navigacija do parkirišča</string>
-        <string name="confirmDelete">Želite izbrisati parkirišče?</string>
-        <string name="naslov">Naslov parkirišča\n</string>
-        <string name="casParkiranja">Čas parkiranja</string>
-        <string name="showWalkNav">Pokaži pot do parkirišča</string>
-        <string name="resetFlag">Izbriši parkirišče</string>
-        <string name="walkNav">Hoja do parkirišča</string>
-        <string name="busNav">Vodi do parkirišča</string>
-        <string name="driveNav">Vožnja do parkirišča</string>
+    <string name="confirmDelete">Želite izbrisati parkirišče?</string>
+
+    <string name="naslov">Naslov parkirišča\n</string>
+    <string name="casParkiranja">Čas parkiranja: </string>
+
+    <string name="showWalkNav">Pokaži pot do parkirišča</string>
+    <string name="resetFlag">Izbriši parkirišče</string>
+    <string name="walkNav">Hoja do parkirišča</string>
+    <string name="busNav">Vodi do parkirišča</string>
+    <string name="driveNav">Vožnja do parkirišča</string>
 </resources>

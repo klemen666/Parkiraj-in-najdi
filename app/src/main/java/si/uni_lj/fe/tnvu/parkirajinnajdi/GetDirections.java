@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,8 @@ public class GetDirections extends ActionBarActivity {
     public long parkingTimeLong;
     public long currentTime;
     public String timeDiff;
+    TextView timePrint;
+    private Handler handler = new Handler();
 
 
     @Override
@@ -57,8 +60,9 @@ public class GetDirections extends ActionBarActivity {
         TextView locationPrint = (TextView) findViewById(R.id.locationPrintOut);
         locationPrint.setText(getResources().getString(R.string.naslov) + locationAddress);
 
-        TextView timePrint = (TextView) findViewById(R.id.timePrintOut);
-        timePrint.setText("Cas parkiranja " + timeDiff);
+        timePrint = (TextView) findViewById(R.id.timePrintOut);
+        handler.post(showTimeDiff);
+        //timePrint.setText("Cas parkiranja " + timeDiff);
 
 /*
         TextView izpisLat = (TextView) findViewById(R.id.latText);
@@ -69,6 +73,15 @@ public class GetDirections extends ActionBarActivity {
 */
     }
 
+
+    private Runnable showTimeDiff = new Runnable() {
+        @Override
+        public void run() {
+            timeDiff = getTimeDiff(parkingTime);
+            timePrint.setText(getResources().getString(R.string.casParkiranja) + " " + timeDiff);
+            handler.postDelayed(showTimeDiff, 1000);
+        }
+    };
 
     /*
     Get current time and time difference between current and "parking time".

@@ -152,7 +152,12 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
             mLatitudeText.setText(String.valueOf(mCurrentLocation.getLatitude()));
             mLongitudeText.setText(String.valueOf(mCurrentLocation.getLongitude()));
         }*/
-        setLocation();
+        if (mCurrentLocation != null) {
+            setLocation();
+        }
+        else {
+            Toast.makeText(this, getResources().getString(R.string.locationErrorMessage), Toast.LENGTH_LONG).show();
+        }
     }
 
 
