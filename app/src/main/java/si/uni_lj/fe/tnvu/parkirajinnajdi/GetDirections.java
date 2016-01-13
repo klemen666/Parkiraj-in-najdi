@@ -71,6 +71,9 @@ public class GetDirections extends ActionBarActivity {
         TextView izpisLon = (TextView) findViewById(R.id.lonText);
         izpisLon.setText("Longitude: " + longitude);
 */
+
+        //Pokliče novi class GPS_REST s podanimi koordinatami
+
     }
 
 

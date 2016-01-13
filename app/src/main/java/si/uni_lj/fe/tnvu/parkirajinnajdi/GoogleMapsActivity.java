@@ -75,6 +75,7 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
 
 
     View view;
+    MainActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,8 +205,19 @@ public class GoogleMapsActivity extends ActionBarActivity implements GoogleApiCl
             os.close();
 
             Log.d("comments", "Maps: latText=" + latText + ", lontext=" + lonText + ", content=" + content);
-            Intent intent = new Intent(this,GetDirections.class);
-            startActivity(intent);
+            try {
+                new GPS_REST(activity).execute(latText, lonText, locationAddress, cas);
+            }
+
+            catch (Exception e) {
+                e.printStackTrace();
+                Log.d("error", "Napaka pri klicu GPS_Rest"  );
+            }
+            finally {
+                Intent intent = new Intent(this,GetDirections.class);
+                startActivity(intent);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

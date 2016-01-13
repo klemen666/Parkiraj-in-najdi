@@ -30,4 +30,11 @@
     <string name="walkNav">Hoja do parkirišča</string>
     <string name="busNav">Vodi do parkirišča</string>
     <string name="driveNav">Vožnja do parkirišča</string>
+
+
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="konec_igre">Igre je konec!</string>
+    <string name="napaka_storitev">Povezava s storitvijo ni uspela. Ali je storitev pognana?</string>
+    <string name="napaka_omrezje">Ni omrežja!</string>
+
 </resources>
